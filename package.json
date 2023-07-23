@@ -4,6 +4,10 @@
   "icon": "images/logo128.png",
   "description": "Automatically adds a '.0' to integers and adds semicolons to the end of each line in GLSL code within R3F projects to save you time!",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kris-sorensen/r3f-glslautoformat"
+  },
   "engines": {
     "vscode": "^1.80.0"
   },
