@@ -1,0 +1,24 @@
+{
+  "fileTypes": [],
+  "injectionSelector": "L:source.ts",
+  "patterns": [
+    {
+      "include": "#glsl-injection"
+    }
+  ],
+  "repository": {
+    "glsl-injection": {
+      "patterns": [
+        {
+          "begin": "(vertexShader|fragmentShader)\\s*=\\s*`",
+          "end": "`",
+          "contentName": "source.glsl",
+          "patterns": [
+            { "include": "source.glsl" }
+          ]
+        }
+      ]
+    }
+  },
+  "scopeName": "source.ts"
+}

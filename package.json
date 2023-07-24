@@ -22,7 +22,17 @@
     "onLanguage:typescriptreact"
   ],
   "main": "./dist/extension.js",
-  "contributes": {},
+  "contributes": {
+    "grammars": [{
+        "language": "typescript",
+        "scopeName": "source.ts",
+        "path": "./syntaxes/glsl-injection.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.glsl": "glsl"
+        },
+        "injectTo": ["source.ts"]
+      }]
+  },
   "scripts": {
     "vscode:prepublish": "yarn run package",
     "compile": "webpack",
