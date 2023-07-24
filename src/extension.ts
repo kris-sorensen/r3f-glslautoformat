@@ -23,25 +23,44 @@ export function activate(context: vscode.ExtensionContext) {
 
 function formatDocument(document: vscode.TextDocument) {
   let inCommentBlock = false;
+  let inShaderBlock = false;
+  let bufferLine = "";
+
   const transformedText = document
     .getText()
     .split("\n")
     .map((line) => {
-      let trimmedLine = line.trim();
+      bufferLine += line;
 
-      if (trimmedLine.startsWith("/*")) {
+      if (
+        bufferLine.includes("vertexShader = `") ||
+        bufferLine.includes("fragmentShader = `")
+      ) {
+        inShaderBlock = true;
+      }
+
+      if (bufferLine.endsWith("`;")) {
+        inShaderBlock = false;
+        bufferLine = "";
+      }
+
+      if (!inShaderBlock) {
+        return line;
+      }
+
+      if (line.trim().startsWith("/*")) {
         inCommentBlock = true;
       }
 
       if (
         inCommentBlock ||
-        trimmedLine.startsWith("//") ||
-        trimmedLine === "" ||
-        trimmedLine.endsWith(";") ||
-        trimmedLine.endsWith("{") ||
-        trimmedLine.endsWith("`")
+        line.trim().startsWith("//") ||
+        line.trim() === "" ||
+        line.trim().endsWith(";") ||
+        line.trim().endsWith("{") ||
+        line.trim().endsWith("`")
       ) {
-        if (trimmedLine.endsWith("*/")) {
+        if (line.trim().endsWith("*/")) {
           inCommentBlock = false;
         }
         return line;
@@ -52,10 +71,6 @@ function formatDocument(document: vscode.TextDocument) {
 
       if (!modifiedLine.trim().endsWith(";")) {
         modifiedLine = modifiedLine + ";";
-      }
-
-      if (trimmedLine.endsWith("*/")) {
-        inCommentBlock = false;
       }
 
       return modifiedLine;
