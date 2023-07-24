@@ -58,6 +58,7 @@ function formatDocument(document: vscode.TextDocument) {
         line.trim() === "" ||
         line.trim().endsWith(";") ||
         line.trim().endsWith("{") ||
+        line.trim().endsWith("}") ||
         line.trim().endsWith("`")
       ) {
         if (line.trim().endsWith("*/")) {
